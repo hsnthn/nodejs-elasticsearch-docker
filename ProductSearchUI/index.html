@@ -1,0 +1,189 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="/product.css">
+<link href='//fonts.googleapis.com/css?family=Ropa Sans' rel='stylesheet'>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" media="screen and (max-device-width: 959px)" href="under_960.css" />
+  <style>
+  
+  </style>
+</head>
+
+<body>
+
+<header>
+    <div class="desktop" style="text-align: right;">
+         <a href="/en-gb/login" class="signin"> Sign in / Register |</a>
+         <a href="/en-gb/login" class="signin"> Stores / Stockists |</a>
+         <a href="/en-gb/login" class="signin"> Your bag (2)</a>
+         
+    </div>
+    
+    <div class="desktop"  style="text-align: center">
+        <a href="/index.html" ><img title="Mamas And papas" alt="Mamas And papas" src="/logo.png"></a>
+    </div>
+    <div class="mobile" style="text-align: center; padding-top: 10px">
+        <a style="display: inline-block;padding-right: 30%"><img title="Menu" alt="Menu" src="/hamburger.png"></a>        
+        <a href="/index.html" ><img title="Mamas And papas" alt="Mamas And papas" src="/logo.png"></a>
+        <a style="display: inline-block;padding-left: 30%" href="/en-gb/bag.html" ><img title="Your Bag" alt="Your Bag" src="/bag.png"></a>        
+    </div>
+    <div class="mobile" style="text-align: center;">
+         <a href="/en-gb/login" class="signin"> Sign in / Register |</a>
+         <a href="/en-gb/login" class="signin"> Stores </a>
+    </div>
+</header>
+<main> 
+    <div class="desktop" style="font-family: 'Ropa Sans'; text-align: center; margin-top:30px;">
+        <a href="/en-gb/offers" style="padding-left: 5%" title="SPRING EVENT">SPRING EVENT</a>
+        <a href="/en-gb/clothing" style="padding-left: 5%" title="CLOTHING">CLOTHING</a>
+        <a href="/en-gb/travel" style="padding-left: 5%" title="TRAVEL">TRAVEL</a>
+        <a href="/en-gb/nursery" style="padding-left: 5%" title="NURSERY">NURSERY</a>
+        <a href="/en-gb/playtime" style="padding-left: 5%" title="PLAYTIME">PLAYTIME</a>
+        <a href="/en-gb/bathtime" style="padding-left: 5%" title="BATH TIME">BATH TIME</a>
+        <a href="/en-gb/feeding" style="padding-left: 5%" title="FEEDING">FEEDING</a>
+        <a href="/en-gb/gifts" style="padding-left: 5%" title="GIFTS">GIFTS</a>
+    </div>
+    <div class="siteSearchInputWrapper">
+        <input id="input_SearchBox" class="siteSearchInput left" type="text" name="text" value="" maxlength="100" placeholder="Hello, I'm looking for..." >
+           <button  class="search-button" type="submit" id="buttonId"  /><i></i><img src="/search_icon.png"  alt="Save icon"/></button>
+                <datalist class="desktop autocomplete-suggestions" id="dropdown"/>
+        </input>
+    </div>
+    <div class="mobile table-responsive"> 
+        <table id="table" class="table" style="text-align: left; overflow: hidden; width: 80%; margin: 0 auto; display: table; padding: 0 0 0 0;">
+    </table>
+</div>
+<div id="modal" class="modal"><!--loading --></div>
+    
+    
+<div id="myCarousel" class="carousel slide" data-ride="carousel" style="margin-top:30px;">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+      <li data-target="#myCarousel" data-slide-to="3"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox">
+      <div class="item active">
+        <img src="http://lorempixel.com/940/375/fashion/?someRandomStrings" width="460" height="345">
+      </div>
+
+      <div class="item">
+        <img src="http://lorempixel.com/940/375/fashion/?someRandomStrings" width="460" height="345">
+      </div>
+
+      <div class="item">
+        <img src="http://lorempixel.com/940/375/fashion/?someRandomStrings" width="460" height="345">
+      </div>
+
+      <div class="item">
+        <img src="http://lorempixel.com/940/375/fashion/?someRandomStrings" width="460" height="345">
+      </div>
+    
+    </div>
+
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</div>
+</main>
+
+
+<script type="text/javascript">
+    xhrPrev = null; 
+    function dropdownFunc(){
+         var data = document.getElementById("input_SearchBox").value;
+          if (screen.width > 956){ // (max-device-width: 959px)
+                if(xhrPrev != null){
+                    xhrPrev.abort();
+                    xhrPrev = null;
+                }
+                $('table').html(""); //init
+                if(data.length < 3){
+                        $('#dropdown').html("");
+                        $("#dropdown:not('#buttonId')").css('display','none');
+                }else{
+                     xhrPrev = $.get("http://localhost:3000/search/quick?keyword="+data, function(response, status){
+                           xhrPrev=null;
+                            var json = JSON.parse(JSON.stringify(response));
+                            if(json.results.hits==null){
+                                console.log(JSON.stringify(response));
+                                return;
+                            }
+                            var dropdownContent = "";
+                            var i;
+
+                                for(var i=0; i<json.results.hits.hits.length; i++){
+                                    var br = (
+                                        "<option>"+json.results.hits.hits[i]._source.name + "</option>"
+                                    );
+                                    dropdownContent += br;
+                                }
+                                $('#dropdown').html(dropdownContent);        
+                                $("#dropdown").css('display','block');
+                           
+                    });
+                }
+             } else {
+                 $('#dropdown').html("");
+                  $('table').html(""); //init
+                  
+                  $.get("http://localhost:3000/search/quick?keyword="+data, function(response, status){
+                            var json = JSON.parse(JSON.stringify(response));
+                            var dropdownContent = "";
+                            var i;
+                    var tableContent="<thead><tr><th>#</th><th>Name</th></tr></thead><tbody>";
+                    var order=0;
+                     for(var i=0; i<json.results.hits.hits.length; i++){
+                        order = i + 1;
+                        var tr = (
+                            "<tr><td>"+order+"</td>"+
+                            "<td>"+ json.results.hits.hits[i]._source.name+"</td></tr>"
+                        );
+
+                        tableContent += tr;
+
+                    };
+                    tableContent+="</tbody>";
+                    $('table').html(tableContent);
+                });
+            }
+    }
+
+    
+    document.getElementById("input_SearchBox").addEventListener("keyup",function(){
+        if(window.screen.availWidth>959){
+            dropdownFunc();
+        }
+    }
+        ,
+        false
+    );
+
+    document.getElementById("buttonId").addEventListener("click",
+    function() {
+               dropdownFunc();
+            }
+            ,false);
+
+</script>
+
+
+</body>
+</html>

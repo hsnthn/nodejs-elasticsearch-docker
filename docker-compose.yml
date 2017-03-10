@@ -1,0 +1,56 @@
+version: '2.1'
+networks:
+  altayer:
+    driver: bridge
+
+services:
+  rabbitmq:
+    image: rabbitmq
+    hostname: rabbitmq
+    ports:
+    - "15672:15672"
+    - "5672:5672"
+    networks:
+    - altayer
+ 
+  elasticsearch:
+    image: elasticsearch
+    ports:
+    - "9200:9200"
+    networks:
+    - altayer
+
+  frontend:
+    build:
+        context: ./ProductSearchUI
+    ports: 
+    - "80:80"
+    links:
+    - service
+    networks:
+    - altayer   
+    
+  consumer:
+    build:
+        context: ./ProductSearch
+    ports:
+    - "3001:3001"
+    links:
+    - elasticsearch
+    - rabbitmq    
+    networks:
+    - altayer 
+    command: bash -c "./wait_and_run.sh"
+    restart: always
+    
+  service:
+    build:
+        context: ./ProductSearchProxy
+    ports:
+    - "3000:3000"
+    links:
+    - rabbitmq
+    networks:
+    - altayer
+    command: bash -c "./wait_and_run.sh"
+    restart: always

@@ -1,0 +1,47 @@
+FROM elasticsearch
+EXPOSE 9200
+
+#nodejs manual installation
+RUN /bin/sh -c apt-get update  && apt-get upgrade -y --force-yes  && rm -rf /var/lib/apt/lists/*;
+RUN /bin/sh -c #(nop) CMD ["npm" "start"]
+RUN /bin/sh -c #(nop) WORKDIR /usr/src/app
+RUN /bin/sh -c #(nop) ENV NODE_ENV=production
+RUN /bin/sh -c npm install -g pangyp && ln -s $(which pangyp) $(dirname $(which pangyp))/node-gyp && npm cache clear && node-gyp configure || echo ""
+RUN /bin/sh -c curl https://deb.nodesource.com/node_6.x/pool/main/n/nodejs/nodejs_6.7.0-1nodesource1~trusty1_amd64.deb > node.deb  && dpkg -i node.deb  && rm node.deb
+RUN /bin/sh -c
+RUN /bin/sh -c apt-get update  && apt-get install -y --force-yes --no-install-recommends      apt-transport-https       ssh-client       build-essential       curl       ca-certificates       git       libicu-dev       'libicu[0-9][0-9].*'       lsb-release       python-all       rlwrap  && rm -rf /var/lib/apt/lists/*;
+RUN /bin/sh -c
+RUN /bin/sh -c
+RUN /bin/sh -c sed -i 's/^#\s*\(deb.*universe\)$/\1/g' /etc/apt/sources.list
+RUN /bin/sh -c rm -rf /var/lib/apt/lists/*
+RUN /bin/sh -c set -xe   && echo '#!/bin/sh' > /usr/sbin/policy-rc.d  && echo 'exit 101' >> /usr/sbin/policy-rc.d  && chmod +x /usr/sbin/policy-rc.d   && dpkg-divert --local --rename --add /sbin/initctl  && cp -a /usr/sbin/policy-rc.d /sbin/initctl  && sed -i 's/^exit.*/exit 0/' /sbin/initctl   && echo 'force-unsafe-io' > /etc/dpkg/dpkg.cfg.d/docker-apt-speedup   && echo 'DPkg::Post-Invoke { "rm -f /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin || true"; };' > /etc/apt/apt.conf.d/docker-clean  && echo 'APT::Update::Post-Invoke { "rm -f /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin || true"; };' >> /etc/apt/apt.conf.d/docker-clean  && echo 'Dir::Cache::pkgcache ""; Dir::Cache::srcpkgcache "";' >> /etc/apt/apt.conf.d/docker-clean   && echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/docker-no-languages   && echo 'Acquire::GzipIndexes "true"; Acquire::CompressionTypes::Order:: "gz";' > /etc/apt/apt.conf.d/docker-gzip-indexes
+RUN /bin/sh -c #(nop) ADD file:b6ff401cf2a7a08c11d2bdfbfec31c7ec105fd7ab29c529fb9
+
+
+RUN /bin/sh -c apt-get update && apt-get upgrade -y --force-yes && rm -rf /var/lib/apt/lists/*; 
+RUN /bin/sh -c #(nop) CMD ["npm" "start"] 
+RUN /bin/sh -c #(nop) WORKDIR /usr/src/app 
+RUN /bin/sh -c #(nop) ENV NODE_ENV=production 
+RUN /bin/sh -c npm install -g pangyp && ln -s $(which pangyp) $(dirname $(which pangyp))/node-gyp && npm cache clear && node-gyp configure || echo "" 
+RUN /bin/sh -c curl https://deb.nodesource.com/node_6.x/pool/main/n/nodejs/nodejs_6.7.0-1nodesource1~trusty1_amd64.deb > node.deb && dpkg -i node.deb && rm node.deb 
+RUN /bin/sh -c #(nop) MAINTAINER William Blankenship <wblankenship@nodesource.com> 
+RUN /bin/sh -c apt-get update && apt-get install -y --force-yes --no-install-recommends apt-transport-https ssh-client build-essential curl ca-certificates git libicu-dev 'libicu[0-9][0-9].*' lsb-release python-all rlwrap && rm -rf /var/lib/apt/lists/*; 
+RUN /bin/sh -c #(nop) MAINTAINER William Blankenship <wblankenship@nodesource.com> 
+RUN /bin/sh -c #(nop) CMD ["/bin/bash"] 
+RUN /bin/sh -c sed -i 's/^#\s*\(deb.*universe\)$/\1/g' /etc/apt/sources.list 
+RUN /bin/sh -c rm -rf /var/lib/apt/lists/* 
+RUN /bin/sh -c set -xe && echo '#!
+RUN /bin/sh' > /usr/sbin/policy-rc.d && echo 'exit 101' >> /usr/sbin/policy-rc.d && chmod +x /usr/sbin/policy-rc.d && dpkg-divert --local --rename --add /sbin/initctl && cp -a /usr/sbin/policy-rc.d /sbin/initctl && sed -i 's/^exit.*/exit 0/' /sbin/initctl && echo 'force-unsafe-io' > /etc/dpkg/dpkg.cfg.d/docker-apt-speedup && echo 'DPkg::Post-Invoke { "rm -f /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin || true"; };' > /etc/apt/apt.conf.d/docker-clean && echo 'APT::Update::Post-Invoke { "rm -f /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin || true"; };' >> /etc/apt/apt.conf.d/docker-clean && echo 'Dir::Cache::pkgcache ""; Dir::Cache::srcpkgcache "";' >> /etc/apt/apt.conf.d/docker-clean && echo 'Acquire::Languages "none";' > /etc/apt/apt.conf.d/docker-no-languages && echo 'Acquire::GzipIndexes "true"; Acquire::CompressionTypes::Order:: "gz";' > /etc/apt/apt.conf.d/docker-gzip-indexes 
+RUN /bin/sh -c #(nop) ADD file:b6ff401cf2a7a08c11d2bdfbfec31c7ec105fd7ab29c529fb90025762b077e2c in /
+
+
+
+# Install app dependencies
+COPY package.json package.json
+RUN npm install
+
+# Bundle app source
+COPY . .
+
+EXPOSE 3001
+CMD [ "npm", "start" ]
